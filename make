@@ -245,11 +245,7 @@ download_depends() {
     svn export ${depends_repo}/armbian-files/common-files/etc/balance_irq ${common_files}/rootfs/etc --force
 
     # Download armbian firmware file
-    if [[ -d "${firmware_path}" ]]; then
-        svn up ${firmware_path} --force
-    else
-        svn co ${firmware_repo} ${firmware_path} --force
-    fi
+    svn export ${firmware_repo} ${firmware_path} --force
 
     # Download install/update and other related files
     svn export ${script_repo} ${common_files}/rootfs/usr/sbin --force
@@ -716,8 +712,10 @@ download_depends
 # Download the latest kernel
 [[ "${auto_kernel}" == "true" ]] && query_version
 download_kernel
+#
 echo -e "${INFO} OpenWrt Board List: [ $(echo ${build_openwrt[*]} | tr "\n" " ") ]"
 echo -e "${INFO} Kernel List: [ $(echo ${build_kernel[*]} | tr "\n" " ") ] \n"
+#
 # Loop to make OpenWrt firmware
 loop_make
 #
